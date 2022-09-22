@@ -9,6 +9,8 @@ const Prismic = require('@prismicio/client')
 const PrismicH = require('@prismicio/helpers')
 const { response } = require('express')
 
+app.use(express.static(path.join(__dirname, 'public')))
+
 // Initialize the prismic.io api
 const initApi = async (req) => {
   return Prismic.createClient(process.env.PRISMIC_ENDPOINT, {
