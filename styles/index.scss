@@ -1,4 +1,16 @@
+@import './utils/variables';
+@import './utils/functions';
+@import './utils/mixins';
+@import './utils/venders';
+@import './utils/responsive';
+
+@import './shared/description';
+@import './shared/titles';
+
+@import './base/fonts';
 @import './base/reset';
+@import './base/base';
+
 @import './pages/about/about';
 @import './pages/about/content';
 @import './pages/about/gallery';
