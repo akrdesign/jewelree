@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "responsive.scss",
+        "../../node_modules/include-media/dist/_include-media.scss"
+    ],
+    "names": [],
+    "file": "responsive.css"
+}
