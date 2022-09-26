@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,GAAG,AAAA,GAAG,CAAC;EACL,OAAO,EAAE,gBAAgB;CAC1B",
-    "sources": [
-        "venders.scss"
-    ],
-    "names": [],
-    "file": "venders.css"
-}

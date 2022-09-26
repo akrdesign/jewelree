@@ -1,4 +1,5 @@
 import  each  from 'lodash/each'
+import NormalizeWheel from 'normalize-wheel'
 
 import Preloader from 'components/Preloader'
 
@@ -13,7 +14,13 @@ class App {
     this.createPages()
 
     this.addEventListeners()
+    this.addLinkListeners()
+
+    this.onResize()
+
+    this.update()
   }
+
 
   createPreloader () {
     this.preloader = new Preloader()
@@ -37,8 +44,13 @@ class App {
     this.page.create()
   }
 
+  /**
+   * Events.
+   */
   onPreloaded() {
     this.preloader.destroy()
+
+    this.onResize()
 
     this.page.show()
   }
@@ -53,24 +65,59 @@ class App {
       const div = document.createElement('div')
 
       div.innerHTML = html
+
       const divContent = div.querySelector('.content')
 
-      this.template =divContent.getAttribute('data-template')
+      this.template = divContent.getAttribute('data-template')
 
       this.content.setAttribute('data-template', this.template)
       this.content.innerHTML = divContent.innerHTML
 
       this.page = this.pages[this.template]
       this.page.create()
+
+      this.onResize()
+
       this.page.show()
 
-      this.addEventListeners()
+      this.addLinkListeners()
     } else {
       console.log('Error')
     }
   }
 
+  onResize () {
+    if (this.page && this.page.onResize) {
+      this.page.onResize()
+    }
+  }
+
+  // onWheel (event) {
+  //   const normalized = NormalizeWheel(event);
+
+  //   console.log(normalized.pixelX, normalized.pixelY);
+  // }
+
+  /**
+   * Loop.
+   */
+  update () {
+    if (this.page && this.page.update) {
+      this.page.update()
+    }
+
+    this.frame = window.requestAnimationFrame(this.update.bind(this))
+  }
+
+  /**
+   * Listeners.
+   */
   addEventListeners () {
+    window.addEventListener('resize', this.onResize.bind(this))
+    // window.addEventListener('mousewheel', this.onWheel.bind(this))
+  }
+
+  addLinkListeners () {
     const links = document.querySelectorAll('a')
 
     each(links, link => {
@@ -79,7 +126,7 @@ class App {
 
         const { href } = link
 
-        this.onChange(href)
+        this.onChange({ url: href })
       }
     })
   }
