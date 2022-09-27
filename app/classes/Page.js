@@ -11,6 +11,10 @@ import Highlight from 'animations/Highlight'
 import Paragraph from 'animations/Paragraph'
 import Title from 'animations/Title'
 
+import AsyncLoad from 'classes/AsyncLoad'
+
+import { ColorsManager } from 'classes/Colors'
+
 export default class Page {
   constructor({
     element,
@@ -25,6 +29,8 @@ export default class Page {
       animationHighlights: '[data-animation="highlight"]',
       animationParagraphs: '[data-animation="paragraph"]',
       animationTitles: '[data-animation="title"]',
+
+      preloaders: '[data-src]'
     }
 
     this.id = id
@@ -32,8 +38,6 @@ export default class Page {
     this.transformPrefix = Prefix('transform')
 
     this.onMouseWheelEvent = this.onMouseWheel.bind(this)
-
-    console.log(this.transformPrefix)
   }
 
   create() {
@@ -64,6 +68,8 @@ export default class Page {
     this.addEventListeners()
 
     this.createAnimations()
+
+    this.createPreloader()
   }
 
   createAnimations() {
@@ -107,8 +113,23 @@ export default class Page {
     this.animations.push(...this.animationLabels)
   }
 
+   createPreloader () {
+    this.preloaders = map(this.elements.preloaders, element => {
+      return new AsyncLoad({ element })
+    })
+   }
+
+   /***
+    * Animation.
+    */
+
   show() {
     return new Promise(resolve => {
+      ColorsManager.change({
+        backgroundColor: this.element.getAttribute('data-background'),
+        color: this.element.getAttribute('data-color'),
+      })
+
       this.animationIn = GSAP.timeline()
 
 
@@ -128,7 +149,7 @@ export default class Page {
 
   hide() {
     return new Promise(resolve => {
-      this.removeEventListeners()
+      this.destroy()
 
       this.animationOut = GSAP.timeline()
 
@@ -138,6 +159,10 @@ export default class Page {
       })
     })
   }
+
+  /***
+   * Events.
+   */
 
   onMouseWheel(event) {
     const { pixelY } = NormalizeWheel(event)
@@ -153,6 +178,10 @@ export default class Page {
     each(this.animations, animation => animation.onResize())
   }
 
+  /***
+   * Loop.
+   */
+
   update() {
     this.scroll.target = GSAP.utils.clamp(0, this.scroll.limit, this.scroll.target)
     this.scroll.current = GSAP.utils.interpolate(this.scroll.current, this.scroll.target, 0.1)
@@ -166,11 +195,22 @@ export default class Page {
     }
   }
 
+  /***
+   * Listeners.
+   */
   addEventListeners() {
     window.addEventListener('mousewheel', this.onMouseWheelEvent)
   }
 
   removeEventListeners() {
     window.addEventListener('mousewheel', this.onMouseWheelEvent)
+  }
+
+  /***
+   * Destroy
+   */
+
+  destroy () {
+    this.removeEventListeners()
   }
 }

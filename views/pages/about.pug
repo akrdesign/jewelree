@@ -4,7 +4,7 @@ block variables
   - var template = 'about'
 
 block content
-  .about
+  .about(data-background="#B2B8C3" data-color="#37384C")
     .about__wrapper
       section.about__gallery
         .about__gallery__wrapper
@@ -25,7 +25,7 @@ block content
                 .about__content__description!=PrismicH.asHTML(section.primary.description).replace(/<p>/g, '<p data-animation="paragraph">')
 
               figure.about__content__media
-                img.about__content__media__image(alt=section.primary.image.alt data-src=section.primary.image.url)
+                img.about__content__media__image(alt=section.primary.image.alt data-src=section.primary.image.url data-animation="images")
 
         if section.slice_type == 'highlight'
           section.about__highlight
@@ -38,11 +38,11 @@ block content
               .about__highlight__medias
                 each media in section.items
                   figure.about_highlight__media
-                    img.about_highlight__media__image(alt=media.image.alt data-src=media.image.url)
+                    img.about_highlight__media__image(alt=media.image.alt data-src=media.image.url data-animation="images")
 
         if section.slice_type == 'gallery'
           section.about__gallery
             .about__gallery__wrapper
               each media in section.items
                 figure.about__gallery__media
-                  img.about__gallery__media__image(alt=media.image.alt data-src=media.image.url)
+                  img.about__gallery__media__image(alt=media.image.alt data-src=media.image.url data-animation="images")

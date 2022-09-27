@@ -50,6 +50,5 @@ export default class Paragraph extends Animation {
 
   onResize() {
     this.elementLines = calculate(this.elementLinesSpans)
-    console.log(this.elementLines)
   }
 }
