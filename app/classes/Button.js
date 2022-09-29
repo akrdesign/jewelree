@@ -21,12 +21,12 @@ export default class Button extends Component {
   }
 
   onMouseEnter () {
-    console.log('MouseEnter')
+    // console.log('MouseEnter')
     this.timeline.play()
   }
 
   onMouseLeave () {
-    console.log('MouseLeave')
+    // console.log('MouseLeave')
     this.timeline.reverse()
   }
 

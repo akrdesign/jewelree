@@ -125,16 +125,16 @@ module.exports = {
 
       {
         test: /\.(glsl|frag|vert)$/,
-        loader: "row-loader",
-        exclude: /node_module/,
+        type: 'asset/source', // replaced raw-loader
+        exclude: /node_modules/,
       },
 
       {
         test: /\.(glsl|frag|vert)$/,
         loader: "glslify-loader",
         exclude: /node_module/,
-      },
-    ],
+      }
+    ]
   },
 
   optimization: {
